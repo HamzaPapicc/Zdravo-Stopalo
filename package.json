@@ -6,5 +6,8 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "prebuild": "electron-vite build"
+  },
+  "dependencies": {
+    "react-big-calendar": "^1.9.1"
   }
 }
