@@ -206,8 +206,8 @@ function App() {
             }}
           />
         </div>
+        <MyCalendar />
       </div>
-      <MyCalendar />
       <script src="path/to/dayjs/dayjs.min.js"></script>
       <script>dayjs().format()</script>
     </>
