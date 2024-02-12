@@ -147,7 +147,6 @@ function App() {
   }
   return (
     <>
-    <div className="App">
       <div className="absolute top-1/4 left-1/3 w-full z-10">
         {modalOpen && (<Modal
           selectDate={selectDate}
@@ -208,7 +207,6 @@ function App() {
           />
         </div>
       </div>
-    </div>
       <MyCalendar />
       <script src="path/to/dayjs/dayjs.min.js"></script>
       <script>dayjs().format()</script>
