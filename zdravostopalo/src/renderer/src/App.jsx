@@ -7,6 +7,7 @@ import 'dayjs/locale/sr'
 import NoviTermin from "./components/NoviTermin";
 import Modal from "./components/Modal";
 import { getMilliseconds, formatTime, extractDigits } from "./assets/utils.jsx";
+import MyCalendar from "./components/MyCalendar.jsx";
 dayjs.locale('sr');
 
 const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
@@ -206,48 +207,9 @@ function App() {
             }}
           />
         </div>
-        <div className="relative flex flex-col">
-          <ul className=" flex flex-col gap-4">
-            {satiUDanu.map(satiDani => (
-              <li className="flex justify-end align-text-top" key={satiDani}>{satiDani}-</li>
-            ))}
-          </ul>
-        </div>
-        <div className="relative flex flex-col">
-          {users.map((user, index) => {
-            const { sati, minuta, updatedDate } = user;
-            /*switch(updatedDate.getHours()) {
-              case 0: 
-                termin.classList.add("flex flex-row justify-between w-full border border-blue-700 bg-blue-700 rounded text-white gap-10 h-12");
-                break;
-              case 1:
-                termin.classList.add("flex flex-row justify-between w-full border border-blue-700 bg-blue-700 rounded text-white gap-10 h-14");
-                break;
-              case 2:
-                termin.classList.add("flex flex-row justify-between w-full border border-blue-700 bg-blue-700 rounded text-white gap-10 h-16");
-                break;
-            }*/
-            if(user.objID == selectDString) {
-            return (
-              <div className="flex flex-row justify-between w-full border border-blue-700 bg-blue-700 rounded text-white gap-10 h-12"
-                key={index} id={index}
-              >
-                <div className="relative flex flex-row justify-evenly items-center gap-10 p-3">
-                  <p> {user.ime}</p>
-                  <p>{formatTime(sati, minuta)} - {formatTime(updatedDate.getHours(), updatedDate.getMinutes())}</p>
-                  <p> br. {user.broj}</p>
-                </div>
-                <div className=" flex justify-end">
-                  <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded w-28">{user.trajanje}</button>
-                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" key={user.divID} onClick={() => obrisiTermin(index)}>Obriši</button>
-                </div>
-              </div>
-            );
-            }
-          })}
-        </div>
       </div>
     </div>
+      <MyCalendar />
       <script src="path/to/dayjs/dayjs.min.js"></script>
       <script>dayjs().format()</script>
     </>
