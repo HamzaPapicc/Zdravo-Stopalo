@@ -1,18 +1,27 @@
 import { Calendar, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
-      import "react-big-calendar/lib/css/react-big-calendar.css"
+import "react-big-calendar/lib/css/react-big-calendar.css"
 
 const localizer = dayjsLocalizer(dayjs)
 
-export default function MyCalendar() {
+// const myEventsList=[
+//   {
+//     title: "DeBumi, Biscuit",
+//     start: dayjs("2024-02-12 15:15").toDate(),
+//     end: dayjs("2024-02-12 20:00").toDate(),
+//   },
+// ];
+
+export default function MyCalendar({props}) {
   return(
   <div>
     <Calendar
       localizer={localizer}
-      //events={myEventsList}
+      events={props.myEventsList}
       startAccessor="start"
       endAccessor="end"
-      style={{ height: 500, width: "100%", }}
+      defaultView='day'
+      style={{ height: 920, width: "100%", }}
     />
   </div>
   );

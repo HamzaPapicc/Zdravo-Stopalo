@@ -80,6 +80,13 @@ function App() {
       return userData;
     } else return [];
   });
+  var myEventsList=[
+    {
+      title: "DeBumi, Biscuit",
+      start: dayjs("2024-02-12 15:15").toDate(),
+      end: dayjs("2024-02-12 20:00").toDate(),
+    },
+  ];
   const [info, setInfo] = useState({
     divID: 1,
     ime: "",
@@ -114,8 +121,16 @@ function App() {
     e.target.reset();
     localStorage.setItem("users", JSON.stringify([...users, info]));
     setModalOpen(false);
+    myEventsList.push(
+      {
+        title: "Mrrrp meow",
+        start: dayjs("2024-02-13 10:15").toDate(),
+        end: dayjs("2024-02-13 13:00").toDate()
+      }
+    )
   };
 
+  
   //Otvaranje i zatvaranje modala
   function openModal() {
     setModalOpen(true);
@@ -206,7 +221,12 @@ function App() {
             }}
           />
         </div>
-        <MyCalendar />
+        <MyCalendar 
+          props ={{
+            ime: info.ime,
+            myEventsList: myEventsList
+          }}
+        />
       </div>
       <script src="path/to/dayjs/dayjs.min.js"></script>
       <script>dayjs().format()</script>
