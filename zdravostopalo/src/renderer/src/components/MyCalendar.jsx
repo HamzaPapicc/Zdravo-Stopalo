@@ -12,12 +12,12 @@ const localizer = dayjsLocalizer(dayjs)
 //   },
 // ];
 
-export default function MyCalendar({props}) {
+export default function MyCalendar({eventsProps}) {
   return(
   <div>
     <Calendar
       localizer={localizer}
-      events={props.myEventsList}
+      events={eventsProps.myEventsList}
       startAccessor="start"
       endAccessor="end"
       defaultView='day'

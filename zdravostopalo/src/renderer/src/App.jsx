@@ -53,11 +53,6 @@ const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
   const satSelect = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
   const minutSelect = ["00", "15", "30", "45"]
   const trajanjeSelect = ["0h:15min","0h:30min","0h:45min","1h:00min","1h:15min","1h:30min","1h:45min","2h:00min","2h:15min","2h:30min","2h:45min","3h:00min","3h:15min","3h:30min","3h:45min","4h:00min","4h:15min","4h:30min","4h:45min","5h:00min","5h:15min","5h:30min","5h:45min","6h:00min","6h:15min","6h:30min","6h:45min","7h:00min","7h:15min","7h:30min","8h:00min","8h:15min", "8h:30min","8h:45min","9h:00min","9h:15min","9h:35min", "9h:45min","10h:00min"]
-  let provera = "";
-
-  //Kod ispisivanja termina
-  const satiUDanu = ["1h","2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h","14h","15h","16h","17h","18h","19h","20h","21h","22h","23h","24h"];
-
 function App() {
   //Stvari za kalendar, header i datum
   const currentDate = dayjs();
@@ -80,15 +75,22 @@ function App() {
       return userData;
     } else return [];
   });
+  //Eventovi za ispis
   var myEventsList=[
     {
       title: "DeBumi, Biscuit",
-      start: dayjs("2024-02-12 15:15").toDate(),
-      end: dayjs("2024-02-12 20:00").toDate(),
+      start: dayjs("2024-02-13 10:15").toDate(),
+      end: dayjs("2024-02-13 13:00").toDate(),
     },
   ];
+  const [newEvents, setNewEvents] = useState({title: "", start: "", end: ""});
+  const [allEvents, setAllEvents] = useState(myEventsList);
+
+  function handleAddEvent() {
+    setAllEvents([...allEvents, newEvents])
+  }
+  //Informacije idr.
   const [info, setInfo] = useState({
-    divID: 1,
     ime: "",
     broj: "",
     sati: "1",
@@ -121,13 +123,6 @@ function App() {
     e.target.reset();
     localStorage.setItem("users", JSON.stringify([...users, info]));
     setModalOpen(false);
-    myEventsList.push(
-      {
-        title: "Mrrrp meow",
-        start: dayjs("2024-02-13 10:15").toDate(),
-        end: dayjs("2024-02-13 13:00").toDate()
-      }
-    )
   };
 
   
@@ -222,9 +217,12 @@ function App() {
           />
         </div>
         <MyCalendar 
-          props ={{
-            ime: info.ime,
-            myEventsList: myEventsList
+          eventsProps ={{
+            newEvents: newEvents,
+            setNewEvents: setNewEvents,
+            allEvents: allEvents,
+            setAllEvents: setAllEvents,
+            myEventsList: allEvents,
           }}
         />
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 export default function Navbar({danManje, danVise, selectDate}){

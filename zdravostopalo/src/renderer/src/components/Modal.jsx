@@ -1,8 +1,8 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { GrClose } from "react-icons/gr";
 
 
-export default function Modal({selectDate, handleChange, handleSubmit, closeModal, timeProps, infoProps}) {
+export default function Modal({selectDate, handleChange, handleSubmit, closeModal, timeProps, infoProps, eventsProps}) {
     return(
         <>
         <div>
@@ -21,7 +21,7 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                         type="text"
                         placeholder="Suljo Mehin"
                         autoComplete="off"
-                        value={infoProps.info.ime}
+                        value={infoProps.info.title}
                         onChange={handleChange}
                     />
                     <label htmlFor="broj">Broj</label>
