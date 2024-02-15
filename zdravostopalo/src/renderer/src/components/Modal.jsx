@@ -2,17 +2,17 @@ import React from "react";
 import { GrClose } from "react-icons/gr";
 
 
-export default function Modal({selectDate, handleChange, handleSubmit, closeModal, timeProps, infoProps, eventsProps}) {
+export default function Modal({modalProps, timeProps, infoProps}) {
     return(
         <>
         <div>
-            <form className=" border border-black rounded bg-white w-1/3" onSubmit={handleSubmit}>
+            <form className=" border border-black rounded bg-white w-1/3" onSubmit={modalProps.handleSubmit}>
                 <div className=" flex justify-between p-5">
-                    <h1>Novi temrin za - {selectDate.format("dddd, D. MMMM YYYY.")}</h1>
-                    <GrClose  onClick={closeModal} className="cursor-pointer"/>
+                    <h1>Novi temrin za - {modalProps.selectDate.format("dddd, D. MMMM YYYY.")}</h1>
+                    <GrClose  onClick={modalProps.closeModal} className="cursor-pointer"/>
                 </div>
                 <div className=" w-full flex flex-col p-5 border-t border-b border-black">
-                    <label htmlFor="ime">Ime</label>
+                    <label htmlFor="title">Ime</label>
                     <input
                         className=" border border-black rounded p-1" 
                         required
@@ -21,8 +21,8 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                         type="text"
                         placeholder="Suljo Mehin"
                         autoComplete="off"
-                        value={infoProps.info.title}
-                        onChange={handleChange}
+                        value={infoProps.info.ime}
+                        onChange={modalProps.handleChange}
                     />
                     <label htmlFor="broj">Broj</label>
                     <input 
@@ -34,7 +34,7 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                         placeholder="06XXXXXXXX"
                         autoComplete="off"
                         value={infoProps.info.broj}
-                        onChange={handleChange}
+                        onChange={modalProps.handleChange}
                     />
                     <div className=" p-5 flex justify-around">
                         <div>
@@ -45,7 +45,7 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                                     id="sati"
                                     name="sati"
                                     value={infoProps.info.sati}
-                                    onChange={handleChange}
+                                    onChange={modalProps.handleChange}
                                     >
                                     {timeProps.satSelected.map(sat => (
                                         <option key={sat}>{sat}</option>
@@ -61,7 +61,7 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                                     id="minuta"
                                     name="minuta"
                                     value={infoProps.info.minuta}
-                                    onChange={handleChange}
+                                    onChange={modalProps.handleChange}
                                     >
                                     {timeProps.minutSelected.map(minut => (
                                         <option key={minut}>{minut}</option>
@@ -77,7 +77,7 @@ export default function Modal({selectDate, handleChange, handleSubmit, closeModa
                                     id="trajanje"
                                     name="trajanje"
                                     value={infoProps.info.trajanje}
-                                    onChange={handleChange}
+                                    onChange={modalProps.handleChange}
                                     >
                                     {timeProps.trajanjeSelected.map(trajanje => (
                                         <option key={trajanje}>{trajanje}</option>

@@ -45,7 +45,6 @@ const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
       return arrayOfDate;
 }
   //Za kalendar
-  const daniFull = ["Nedelja", "Ponedeljak", "Utorak", "Sreda", "Četvrtak", "Petak", "Subota"];
   const daniMin=["M","T","W","T","F","S","S"];
   const meseci = ["Januar","Februar","Mart","April","Maj","Jun","Jul","Avgust","Septembar","Oktobar","Novembar","Decembar"];
 
@@ -61,7 +60,6 @@ function App() {
   const [selectDate, setSelectDate]=useState(currentDate);
   const results = generateDate(today.month(), today.year());
   const selectDString = selectDate.toDate().toDateString();
-  const daniFullPut = daniFull[today.day()];
   //Za unosenje podataka
   const [modalOpen, setModalOpen] = useState(false);
   const [users, setUsers] = useState(() => {
@@ -75,20 +73,6 @@ function App() {
       return userData;
     } else return [];
   });
-  //Eventovi za ispis
-  var myEventsList=[
-    {
-      title: "DeBumi, Biscuit",
-      start: dayjs("2024-02-13 10:15").toDate(),
-      end: dayjs("2024-02-13 13:00").toDate(),
-    },
-  ];
-  const [newEvents, setNewEvents] = useState({title: "", start: "", end: ""});
-  const [allEvents, setAllEvents] = useState(myEventsList);
-
-  function handleAddEvent() {
-    setAllEvents([...allEvents, newEvents])
-  }
   //Informacije idr.
   const [info, setInfo] = useState({
     ime: "",
@@ -98,6 +82,11 @@ function App() {
     trajanje: "0h:15min",
     updatedDate: new Date("January 1, 2024"),
     objID: selectDString,
+  })
+  const [events, setEvents] = useState({
+    title: `${info.ime}-${info.broj}`,
+    start: dayjs(`${selectDate} ${formatTime(info.sati, info.minuta)}`).toDate(),
+    end: dayjs(`${selectDate} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
   })
   const placeholderDate = new Date(`January 1, 2024 ${info.sati}:${info.minuta}`);
   const handleChange = (e) => {
@@ -118,8 +107,13 @@ function App() {
       trajanje: "0h:15min",
       updatedDate: new Date("January 1, 2024"),
       objID: selectDString,
-    })
-    console.log(hourLen);
+    });
+    setEvents({
+      title: `${info.ime}-${info.broj}`,
+      start: dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate(),
+      end: dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate(),
+    });
+    console.log(events);
     e.target.reset();
     localStorage.setItem("users", JSON.stringify([...users, info]));
     setModalOpen(false);
@@ -159,17 +153,17 @@ function App() {
     <>
       <div className="absolute top-1/4 left-1/3 w-full z-10">
         {modalOpen && (<Modal
-          selectDate={selectDate}
-          closeModal={closeModal}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          setModalOpen={setModalOpen}
+          modalProps={{
+            selectDate: selectDate,
+            closeModal: closeModal,
+            handleChange: handleChange,
+            handleSubmit: handleSubmit,
+          }}
           infoProps = {{
             users: users,
             setUsers: setUsers,
             info: info,
             setInfo: setInfo,
-            provera: provera,
           }}
           timeProps = {{
             satSelected: satSelect,
@@ -180,12 +174,11 @@ function App() {
       </div>
       <div className="w-full flex flex-row justify-center">
         <Navbar 
-        daniFullPut = {daniFullPut}
-        meseci={meseci}
-        today={today}
-        selectDate={selectDate}
-        danManje={danManje}
-        danVise={danVise}
+          navbarProps={{
+            selectDate: selectDate,
+            danManje: danManje,
+            danVise: danVise,
+          }}
         />
       </div>
       <br />
@@ -209,20 +202,43 @@ function App() {
           />
           <br />
           <NoviTermin 
-            modalProps ={{
-              modalOpen: modalOpen,
-              setModalOpen: setModalOpen,
+            NTProps ={{
               openModal: openModal,
             }}
           />
         </div>
+        {/* <div>
+        {users.map((user, index) => {
+          const { sati, minuta, updatedDate } = user; // destructure
+          return (
+            <div
+              key={index}
+              style={{
+                border: "2px solid purple",
+                backgroundColor: "grey",
+                borderRadius: "5px",
+                color: "white",
+              }}
+            >
+              <p>
+                FROM:
+                {formatTime(sati, minuta)}
+              </p>
+
+              <p>
+                TO:
+                {formatTime(updatedDate.getHours(), updatedDate.getMinutes())}
+              </p>
+            </div>
+          );
+        })}
+        </div> */}
         <MyCalendar 
-          eventsProps ={{
-            newEvents: newEvents,
-            setNewEvents: setNewEvents,
-            allEvents: allEvents,
-            setAllEvents: setAllEvents,
-            myEventsList: allEvents,
+          infoProps = {{
+            users: users,
+            setUsers: setUsers,
+            info: info,
+            setInfo: setInfo,
           }}
         />
       </div>

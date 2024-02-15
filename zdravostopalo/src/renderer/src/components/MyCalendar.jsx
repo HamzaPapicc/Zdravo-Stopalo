@@ -4,20 +4,12 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 
 const localizer = dayjsLocalizer(dayjs)
 
-// const myEventsList=[
-//   {
-//     title: "DeBumi, Biscuit",
-//     start: dayjs("2024-02-12 15:15").toDate(),
-//     end: dayjs("2024-02-12 20:00").toDate(),
-//   },
-// ];
-
-export default function MyCalendar({eventsProps}) {
+export default function MyCalendar({infoProps}) {
   return(
   <div>
     <Calendar
       localizer={localizer}
-      events={eventsProps.myEventsList}
+      events={infoProps.users}
       startAccessor="start"
       endAccessor="end"
       defaultView='day'
