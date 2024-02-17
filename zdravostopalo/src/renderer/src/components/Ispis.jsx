@@ -4,7 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 
 const localizer = dayjsLocalizer(dayjs)
 
-export default function MyCalendar({infoProps}) {
+export default function Ispis({infoProps}) {
   return(
   <div>
     <Calendar
@@ -12,8 +12,9 @@ export default function MyCalendar({infoProps}) {
       events={infoProps.users}
       startAccessor="start"
       endAccessor="end"
-      defaultView='day'
-      style={{ height: 920, width: "100%", }}
+      defaultView="day"
+      toolbar={false}
+      style={{ height: 920, width: 750 }}
     />
   </div>
   );

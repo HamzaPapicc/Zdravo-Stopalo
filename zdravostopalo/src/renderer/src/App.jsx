@@ -7,7 +7,7 @@ import 'dayjs/locale/sr'
 import NoviTermin from "./components/NoviTermin";
 import Modal from "./components/Modal";
 import { getMilliseconds, formatTime, extractDigits } from "./assets/utils.jsx";
-import MyCalendar from "./components/MyCalendar.jsx";
+import Ispis from "./components/Ispis.jsx";
 dayjs.locale('sr');
 
 const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
@@ -83,11 +83,16 @@ function App() {
     updatedDate: new Date("January 1, 2024"),
     objID: selectDString,
   })
-  const [events, setEvents] = useState({
-    title: `${info.ime}-${info.broj}`,
-    start: dayjs(`${selectDate} ${formatTime(info.sati, info.minuta)}`).toDate(),
-    end: dayjs(`${selectDate} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
-  })
+  // const [events, setEvents] = useState({
+  //   title: `${info.ime}-${info.broj}`,
+  //   start: new Date(`${selectDate}${formatTime(info.sati, info.minuta)}`),
+  //   end: new Date(`${selectDate} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
+  // })
+
+
+  const [events, setEvents] = useState([]);
+
+
   const placeholderDate = new Date(`January 1, 2024 ${info.sati}:${info.minuta}`);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,7 +102,7 @@ function App() {
     e.preventDefault();
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
-    setUsers([...users, info]);
+    setUsers([...users, events]);
     setInfo({
       divID: info.divID+1,
       ime: "",
@@ -109,7 +114,7 @@ function App() {
       objID: selectDString,
     });
     setEvents({
-      title: `${info.ime}-${info.broj}`,
+      title: `${info.ime} br. ${info.broj}`,
       start: dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate(),
       end: dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate(),
     });
@@ -233,7 +238,7 @@ function App() {
           );
         })}
         </div> */}
-        <MyCalendar 
+        <Ispis 
           infoProps = {{
             users: users,
             setUsers: setUsers,
