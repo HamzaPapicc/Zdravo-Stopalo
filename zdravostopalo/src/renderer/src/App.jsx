@@ -83,15 +83,6 @@ function App() {
     updatedDate: new Date("January 1, 2024"),
     objID: selectDString,
   })
-  // const [events, setEvents] = useState({
-  //   title: `${info.ime}-${info.broj}`,
-  //   start: new Date(`${selectDate}${formatTime(info.sati, info.minuta)}`),
-  //   end: new Date(`${selectDate} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
-  // })
-
-
-  const [events, setEvents] = useState([]);
-
 
   const placeholderDate = new Date(`January 1, 2024 ${info.sati}:${info.minuta}`);
   const handleChange = (e) => {
@@ -102,7 +93,6 @@ function App() {
     e.preventDefault();
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
-    setUsers([...users, events]);
     setInfo({
       divID: info.divID+1,
       ime: "",
@@ -113,12 +103,12 @@ function App() {
       updatedDate: new Date("January 1, 2024"),
       objID: selectDString,
     });
-    setEvents({
-      title: `${info.ime} br. ${info.broj}`,
+    const newEvents = {
+      title: `${info.ime} br: ${info.broj}`,
       start: dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate(),
       end: dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate(),
-    });
-    console.log(events);
+    };
+    setUsers([...users, newEvents]);
     e.target.reset();
     localStorage.setItem("users", JSON.stringify([...users, info]));
     setModalOpen(false);
