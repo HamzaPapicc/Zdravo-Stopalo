@@ -115,11 +115,6 @@ function App() {
     e.target.reset();
     closeModal();
   };
-  // useEffect(() => {
-  //   if (users.length) {
-  //     localStorage.getItem("users" || "[]");
-  //   }
-  // }, []);
   
   //Otvaranje i zatvaranje modala
   function openModal() {
