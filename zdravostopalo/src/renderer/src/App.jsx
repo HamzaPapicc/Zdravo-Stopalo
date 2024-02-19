@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Calendar from "./components/Calendar";
 import Navbar from "./components/Navbar";
 import Slika from "./assets/zdravostopalo.png";
@@ -73,6 +73,7 @@ function App() {
       return userData;
     } else return [];
   });
+  // const [users, setUsers] = useState([]);
   //Informacije idr.
   const [info, setInfo] = useState({
     ime: "",
@@ -81,8 +82,7 @@ function App() {
     minuta: "00",
     trajanje: "0h:15min",
     updatedDate: new Date("January 1, 2024"),
-    objID: selectDString,
-  })
+  });
 
   const placeholderDate = new Date(`January 1, 2024 ${info.sati}:${info.minuta}`);
   const handleChange = (e) => {
@@ -94,26 +94,32 @@ function App() {
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
     setInfo({
-      divID: info.divID+1,
       ime: "",
       broj: "",
       sati: "1",
       minuta: "00",
       trajanje: "0h:15min",
       updatedDate: new Date("January 1, 2024"),
-      objID: selectDString,
     });
+    const newStart = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+    const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
     const newEvents = {
       title: `${info.ime} br: ${info.broj}`,
-      start: dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate(),
-      end: dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate(),
+      // start: new Date(`${selectDString} ${formatTime(info.sati, info.minuta)}`),
+      // end: new Date(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
+      start: new Date(newStart),
+      end: new Date(newEnd),
     };
     setUsers([...users, newEvents]);
+    localStorage.setItem("users", JSON.stringify([...users, newEvents]));
     e.target.reset();
-    localStorage.setItem("users", JSON.stringify([...users, info]));
-    setModalOpen(false);
+    closeModal();
   };
-
+  // useEffect(() => {
+  //   if (users.length) {
+  //     localStorage.getItem("users" || "[]");
+  //   }
+  // }, []);
   
   //Otvaranje i zatvaranje modala
   function openModal() {
@@ -202,39 +208,8 @@ function App() {
             }}
           />
         </div>
-        {/* <div>
-        {users.map((user, index) => {
-          const { sati, minuta, updatedDate } = user; // destructure
-          return (
-            <div
-              key={index}
-              style={{
-                border: "2px solid purple",
-                backgroundColor: "grey",
-                borderRadius: "5px",
-                color: "white",
-              }}
-            >
-              <p>
-                FROM:
-                {formatTime(sati, minuta)}
-              </p>
-
-              <p>
-                TO:
-                {formatTime(updatedDate.getHours(), updatedDate.getMinutes())}
-              </p>
-            </div>
-          );
-        })}
-        </div> */}
         <Ispis 
-          infoProps = {{
-            users: users,
-            setUsers: setUsers,
-            info: info,
-            setInfo: setInfo,
-          }}
+          users={users}
         />
       </div>
       <script src="path/to/dayjs/dayjs.min.js"></script>

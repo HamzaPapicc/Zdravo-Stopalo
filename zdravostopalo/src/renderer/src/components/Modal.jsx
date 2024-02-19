@@ -88,7 +88,6 @@ export default function Modal({modalProps, timeProps, infoProps}) {
                     </div>
                 </div>
                 <div className=" flex justify-end p-5">
-                    <p>{infoProps.provera}</p>
                     <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded">
                         <h1>Dodaj</h1>
                     </button>

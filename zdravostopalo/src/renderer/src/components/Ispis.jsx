@@ -4,12 +4,12 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 
 const localizer = dayjsLocalizer(dayjs)
 
-export default function Ispis({infoProps}) {
+export default function Ispis({users}) {
   return(
   <div>
     <Calendar
       localizer={localizer}
-      events={infoProps.users}
+      events={users}
       startAccessor="start"
       endAccessor="end"
       defaultView="day"
