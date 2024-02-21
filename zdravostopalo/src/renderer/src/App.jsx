@@ -131,10 +131,12 @@ function App() {
   function danManje() { 
     setSelectDate(selectDate.day(selectDate.day()-1));
     setToday(today.day(today.day()-1))
+    // navigate.bind(null, navigate.NEXT)
   }
   function danVise() {
     setSelectDate(selectDate.day(selectDate.day()+1));
     setToday(today.day(today.day()+1))
+    onNavigate().bind(null, navigate.NEXT);
   }
   function mesecManje() {
     setToday(today.month(today.month()-1));

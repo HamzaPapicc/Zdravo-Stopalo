@@ -14,9 +14,9 @@ function createWindow() {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
-    }
+    },
   })
-
+  mainWindow.maximize()
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
