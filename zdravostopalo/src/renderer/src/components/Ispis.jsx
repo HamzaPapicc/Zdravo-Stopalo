@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 
 const localizer = dayjsLocalizer(dayjs)
 
-export default function Ispis({users}) {
+export default function Ispis({users, handleEventEdit}) {
   return(
   <div>
     <Calendar
@@ -16,6 +16,7 @@ export default function Ispis({users}) {
       defaultView="day"
       toolbar={Navbar}
       style={{ height: 920, width: 750 }}
+      onSelectEvent={handleEventEdit}
     />
   </div>
   );

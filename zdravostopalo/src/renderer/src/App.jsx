@@ -75,7 +75,20 @@ function App() {
       return userData;
     } else return [];
   });
-  // const [users, setUsers] = useState([]);
+  const [eventEdit, setEventEdit] = useState(null);
+  const handleEventEdit = (event) => {
+    setModalOpen(true);
+    setEventEdit(event);
+    // if(!eventEdit) {
+    //   const updatedEvent = {...eventEdit}
+    //   const updatedEvents = users.map((user) => {
+    //     user === eventEdit ? updatedEvent : user
+    //   })
+    //   setUsers(updatedEvents);
+    // } else {
+      
+    // }
+  }
   
   //Informacije idr.
   const [info, setInfo] = useState({
@@ -96,27 +109,47 @@ function App() {
     e.preventDefault();
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
-    setInfo({
-      ime: "",
-      broj: "",
-      sati: "1",
-      minuta: "00",
-      trajanje: "0h:15min",
-      updatedDate: new Date("January 1, 2024"),
-    });
-    const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
-    const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-    const newEvents = {
-      title: `${info.ime} br: ${info.broj}`,
-      // start: new Date(`${selectDString} ${formatTime(info.sati, info.minuta)}`),
-      // end: new Date(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`),
-      start: new Date(newStart),
-      end: new Date(newEnd),
-    };
-    setUsers([...users, newEvents]);
-    localStorage.setItem("users", JSON.stringify([...users, newEvents]));
-    e.target.reset();
+    if(eventEdit) {
+      const updatedEvent = {...eventEdit}
+      setInfo({
+        ime: "",
+        broj: "",
+        sati: "1",
+        minuta: "00",
+        trajanje: "0h:15min",
+        updatedDate: new Date("January 1, 2024"),
+      });
+      const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
+      const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+      const updatedEvents = users.map((event) => ({
+        ...event,
+        title: `${info.ime} br: ${info.broj}`,
+        start: new Date(newStart),
+        end: new Date(newEnd),
+      }))
+      setUsers(...users, updatedEvents);
+    } else {
+      setInfo({
+        ime: "",
+        broj: "",
+        sati: "1",
+        minuta: "00",
+        trajanje: "0h:15min",
+        updatedDate: new Date("January 1, 2024"),
+      });
+      const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
+      const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+      const newEvents = {
+        title: `${info.ime} br: ${info.broj}`,
+        start: new Date(newStart),
+        end: new Date(newEnd),
+      };
+      setUsers([...users, newEvents]);
+      localStorage.setItem("users", JSON.stringify([...users, newEvents]));
+      e.target.reset();
+    }
     closeModal();
+    setEventEdit(null);
   };
   
   //Otvaranje i zatvaranje modala
@@ -125,6 +158,7 @@ function App() {
   }
   function closeModal() {
     setModalOpen(false);
+    setEventEdit(null);
   }
   
   //Za menjanje datuma
@@ -155,6 +189,7 @@ function App() {
       <div className="absolute top-1/4 left-1/3 w-full z-10">
         {modalOpen && (<Modal
           modalProps={{
+            eventEdit: eventEdit,
             selectDate: selectDate,
             closeModal: closeModal,
             handleChange: handleChange,
@@ -210,6 +245,7 @@ function App() {
         </div>
         <Ispis 
           users={users}
+          handleEventEdit={handleEventEdit}
         />
       </div>
       <script src="path/to/dayjs/dayjs.min.js"></script>
