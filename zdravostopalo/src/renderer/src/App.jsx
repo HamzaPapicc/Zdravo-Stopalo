@@ -69,11 +69,14 @@ function App() {
       const userData = parsedData.map((user) => ({
         ...user,
         updatedDate: new Date(user.updatedDate),
+        start: new Date(user.start),
+        end: new Date(user.end),
       }));
       return userData;
     } else return [];
   });
   // const [users, setUsers] = useState([]);
+  
   //Informacije idr.
   const [info, setInfo] = useState({
     ime: "",
@@ -83,7 +86,7 @@ function App() {
     trajanje: "0h:15min",
     updatedDate: new Date("January 1, 2024"),
   });
-
+  
   const placeholderDate = new Date(`January 1, 2024 ${info.sati}:${info.minuta}`);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,7 +104,7 @@ function App() {
       trajanje: "0h:15min",
       updatedDate: new Date("January 1, 2024"),
     });
-    const newStart = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+    const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
     const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
     const newEvents = {
       title: `${info.ime} br: ${info.broj}`,
@@ -139,7 +142,7 @@ function App() {
   function mesecVise() {
     setToday(today.month(today.month()+1));
   }
-
+  
   //Za brisanje i izmenu termina
   const obrisiTermin = (index) => {
     setUsers(users.filter((_, i) => i !== index));
