@@ -52,6 +52,7 @@ const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
   const satSelect = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
   const minutSelect = ["00", "15", "30", "45"]
   const trajanjeSelect = ["0h:15min","0h:30min","0h:45min","1h:00min","1h:15min","1h:30min","1h:45min","2h:00min","2h:15min","2h:30min","2h:45min","3h:00min","3h:15min","3h:30min","3h:45min","4h:00min","4h:15min","4h:30min","4h:45min","5h:00min","5h:15min","5h:30min","5h:45min","6h:00min","6h:15min","6h:30min","6h:45min","7h:00min","7h:15min","7h:30min","8h:00min","8h:15min", "8h:30min","8h:45min","9h:00min","9h:15min","9h:35min", "9h:45min","10h:00min"]
+
 function App() {
   //Stvari za kalendar, header i datum
   const currentDate = dayjs();
@@ -79,15 +80,6 @@ function App() {
   const handleEventEdit = (event) => {
     setModalOpen(true);
     setEventEdit(event);
-    // if(!eventEdit) {
-    //   const updatedEvent = {...eventEdit}
-    //   const updatedEvents = users.map((user) => {
-    //     user === eventEdit ? updatedEvent : user
-    //   })
-    //   setUsers(updatedEvents);
-    // } else {
-      
-    // }
   }
   
   //Informacije idr.
@@ -110,7 +102,7 @@ function App() {
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
     if(eventEdit) {
-      const updatedEvent = {...eventEdit}
+      const oldEvent = localStorage.getItem("users", eventEdit)
       setInfo({
         ime: "",
         broj: "",
@@ -121,13 +113,14 @@ function App() {
       });
       const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
       const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-      const updatedEvents = users.map((event) => ({
-        ...event,
+      const newEvents = {
         title: `${info.ime} br: ${info.broj}`,
         start: new Date(newStart),
         end: new Date(newEnd),
-      }))
-      setUsers(...users, updatedEvents);
+      };
+      setUsers([oldEvent, newEvents]);
+      localStorage.setItem("users", JSON.stringify([oldEvent, newEvents]));
+      e.target.reset();
     } else {
       setInfo({
         ime: "",
@@ -148,6 +141,7 @@ function App() {
       localStorage.setItem("users", JSON.stringify([...users, newEvents]));
       e.target.reset();
     }
+    console.log(users);
     closeModal();
     setEventEdit(null);
   };
