@@ -76,7 +76,7 @@ function App() {
       return userData;
     } else return [];
   });
-  const [eventEdit, setEventEdit] = useState(null);
+  const [eventEdit, setEventEdit] = useState(false);
   const handleEventEdit = (event) => {
     setModalOpen(true);
     setEventEdit(event);
@@ -114,12 +114,13 @@ function App() {
       const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
       const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
       const newEvents = {
+        if: Math.floor(Math.random() * 10000),
         title: `${info.ime} br: ${info.broj}`,
         start: new Date(newStart),
         end: new Date(newEnd),
       };
-      setUsers([oldEvent, newEvents]);
-      localStorage.setItem("users", JSON.stringify([oldEvent, newEvents]));
+      setUsers([...oldEvent, newEvents]);
+      localStorage.setItem("users", JSON.stringify([...oldEvent, newEvents]));
       e.target.reset();
     } else {
       setInfo({
@@ -133,6 +134,7 @@ function App() {
       const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
       const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
       const newEvents = {
+        id: Math.floor(Math.random() * 10000),
         title: `${info.ime} br: ${info.broj}`,
         start: new Date(newStart),
         end: new Date(newEnd),
