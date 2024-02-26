@@ -8,6 +8,7 @@ import NoviTermin from "./components/NoviTermin";
 import Modal from "./components/Modal";
 import { getMilliseconds, formatTime, extractDigits } from "./assets/utils.jsx";
 import Ispis from "./components/Ispis.jsx";
+import { v4 as uuidv4 } from 'uuid';
 dayjs.locale('sr');
 
 const generateDate = (month=dayjs().month(), year=dayjs().year()) => {
@@ -77,9 +78,27 @@ function App() {
     } else return [];
   });
   const [eventEdit, setEventEdit] = useState(false);
-  const handleEventEdit = (event) => {
+  const handleEventEdit = (index) => {
+    const oldEvent = users.filter((_, usr) => usr === index);
+    setEventEdit(true);
     setModalOpen(true);
-    setEventEdit(event);
+    setInfo({
+      ime: "",
+      broj: "",
+      sati: "1",
+      minuta: "00",
+      trajanje: "0h:15min",
+      updatedDate: new Date("January 1, 2024"),
+    });
+    const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
+    const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+    const newEvents = {
+      id: oldEvent.id,
+      title: `${info.ime} br: ${info.broj}`,
+      start: new Date(newStart),
+      end: new Date(newEnd),
+    };
+    setUsers([...oldEvent, newEvents]);
   }
   
   //Informacije idr.
@@ -101,51 +120,26 @@ function App() {
     e.preventDefault();
     const { hourLen, minuteLen } = extractDigits(info.trajanje);
     info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
-    if(eventEdit) {
-      const oldEvent = localStorage.getItem("users", eventEdit)
-      setInfo({
-        ime: "",
-        broj: "",
-        sati: "1",
-        minuta: "00",
-        trajanje: "0h:15min",
-        updatedDate: new Date("January 1, 2024"),
-      });
-      const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
-      const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-      const newEvents = {
-        if: Math.floor(Math.random() * 10000),
-        title: `${info.ime} br: ${info.broj}`,
-        start: new Date(newStart),
-        end: new Date(newEnd),
-      };
-      setUsers([...oldEvent, newEvents]);
-      localStorage.setItem("users", JSON.stringify([...oldEvent, newEvents]));
-      e.target.reset();
-    } else {
-      setInfo({
-        ime: "",
-        broj: "",
-        sati: "1",
-        minuta: "00",
-        trajanje: "0h:15min",
-        updatedDate: new Date("January 1, 2024"),
-      });
-      const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
-      const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-      const newEvents = {
-        id: Math.floor(Math.random() * 10000),
-        title: `${info.ime} br: ${info.broj}`,
-        start: new Date(newStart),
-        end: new Date(newEnd),
-      };
-      setUsers([...users, newEvents]);
-      localStorage.setItem("users", JSON.stringify([...users, newEvents]));
-      e.target.reset();
-    }
-    console.log(users);
+    setInfo({
+      ime: "",
+      broj: "",
+      sati: "1",
+      minuta: "00",
+      trajanje: "0h:15min",
+      updatedDate: new Date("January 1, 2024"),
+    });
+    const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
+    const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+    const newEvents = {
+      id: uuidv4(),
+      title: `${info.ime} br: ${info.broj}`,
+      start: new Date(newStart),
+      end: new Date(newEnd),
+    };
+    setUsers([...users, newEvents]);
+    localStorage.setItem("users", JSON.stringify([...users, newEvents]));
+    e.target.reset();
     closeModal();
-    setEventEdit(null);
   };
   
   //Otvaranje i zatvaranje modala
