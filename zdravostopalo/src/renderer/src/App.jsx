@@ -81,7 +81,7 @@ function App() {
   const handleEventEdit = (user) => {
     const savedEvents = JSON.parse(localStorage.getItem("users"));
     const event = savedEvents.find((event) => event.id === user.id);
-    savedEvents.filter((_, i) => i !== user.id);
+    const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
     setEventEdit(true);
     setModalOpen(true);
     setInfo({
@@ -95,16 +95,14 @@ function App() {
     const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
     const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
     const newEvents = {
-      id: uuidv4(),
+      id: `${event.id}`,
       title: `${info.ime} br: ${info.broj}`,
       start: new Date(newStart),
       end: new Date(newEnd),
     };
-    console.log(savedEvents);
-    console.log("--------------------------------")
-    console.log(event);
-    // const finalEvent = Object.assign(event, newEvents);
-    // localStorage.setItem("users", JSON.stringify(finalEvent));
+    const finalEvent = {...event, ...newEvents}
+    filteredSavedEvents.push(finalEvent);
+    localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
   }
   
   //Informacije idr.
