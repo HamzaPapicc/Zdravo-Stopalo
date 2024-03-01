@@ -100,9 +100,9 @@ function App() {
       start: new Date(newStart),
       end: new Date(newEnd),
     };
-    const finalEvent = {...event, ...newEvents}
-    filteredSavedEvents.push(finalEvent);
-    localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
+    // const finalEvent = {...event, ...newEvents}
+    // filteredSavedEvents.push(finalEvent);
+    // localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
   }
   
   //Informacije idr.
