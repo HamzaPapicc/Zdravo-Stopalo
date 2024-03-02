@@ -77,19 +77,27 @@ function App() {
       return userData;
     } else return [];
   });
+  // Ovo sluzi za menjanje naslova u modalu
   const [eventEdit, setEventEdit] = useState(false);
   const handleEventEdit = (user) => {
+    //Nalazimo zeljeni termin
     const savedEvents = JSON.parse(localStorage.getItem("users"));
     const event = savedEvents.find((event) => event.id === user.id);
     const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
-    
+    const oldtitleSplit = event.title.split(" br: ");
+    const oldStart = new Date (event.start);
+    const oldEnd = new Date (event.end);
+    const oldEventHours = oldEnd.getHours() - oldStart.getHours();
+    console.log(oldEventHours);
+    console.log(event);
+
     setEventEdit(true);
     setModalOpen(true);
     setInfo({
-      ime: "",
-      broj: "",
-      sati: "1",
-      minuta: "00",
+      ime: oldtitleSplit[0],
+      broj: oldtitleSplit[1],
+      sati: oldStart.getHours(),
+      minuta: oldStart.getMinutes(),
       trajanje: "0h:15min",
       updatedDate: new Date("January 1, 2024"),
     });
