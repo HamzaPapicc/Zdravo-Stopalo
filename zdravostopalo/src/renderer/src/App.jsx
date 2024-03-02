@@ -82,6 +82,7 @@ function App() {
     const savedEvents = JSON.parse(localStorage.getItem("users"));
     const event = savedEvents.find((event) => event.id === user.id);
     const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
+    
     setEventEdit(true);
     setModalOpen(true);
     setInfo({
@@ -100,9 +101,23 @@ function App() {
       start: new Date(newStart),
       end: new Date(newEnd),
     };
-    // const finalEvent = {...event, ...newEvents}
-    // filteredSavedEvents.push(finalEvent);
-    // localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
+
+    const updated = savedEvents.map((item) => {
+      if(user.id === item.id) {
+        return {
+          ...item,
+          id: `${event.id}`,
+          title: `${info.ime} br: ${info.broj}`,
+          start: new Date(newStart),
+          end: new Date(newEnd),
+        }
+      }
+
+      return item;
+    })
+    // const finalEvent = {...event, newEvents}
+    filteredSavedEvents.push(updated);
+    localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
   }
   
   //Informacije idr.
