@@ -83,14 +83,12 @@ function App() {
     //Nalazimo zeljeni termin
     const savedEvents = JSON.parse(localStorage.getItem("users"));
     const event = savedEvents.find((event) => event.id === user.id);
-    const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
+    //Informacije iz izabranog termina ispisujemo u modal
     const oldtitleSplit = event.title.split(" br: ");
     const oldStart = new Date (event.start);
     const oldEnd = new Date (event.end);
     const oldEventHours = oldEnd.getHours() - oldStart.getHours();
-    console.log(oldEventHours);
-    console.log(event);
-
+    const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
     setEventEdit(true);
     setModalOpen(true);
     setInfo({
@@ -98,23 +96,22 @@ function App() {
       broj: oldtitleSplit[1],
       sati: oldStart.getHours(),
       minuta: oldStart.getMinutes(),
-      trajanje: "0h:15min",
+      trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
       updatedDate: new Date("January 1, 2024"),
     });
     const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
     const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-    const newEvents = {
-      id: `${event.id}`,
-      title: `${info.ime} br: ${info.broj}`,
-      start: new Date(newStart),
-      end: new Date(newEnd),
-    };
-
+    // const newEvents = {
+    //   id: event.id,
+    //   title: `${info.ime} br: ${info.broj}`,
+    //   start: new Date(newStart),
+    //   end: new Date(newEnd),
+    // };
     const updated = savedEvents.map((item) => {
       if(user.id === item.id) {
         return {
           ...item,
-          id: `${event.id}`,
+          id: event.id,
           title: `${info.ime} br: ${info.broj}`,
           start: new Date(newStart),
           end: new Date(newEnd),
@@ -123,7 +120,7 @@ function App() {
 
       return item;
     })
-    // const finalEvent = {...event, newEvents}
+    const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
     filteredSavedEvents.push(updated);
     localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
   }
@@ -206,11 +203,12 @@ function App() {
       <div className="absolute top-1/4 left-1/3 w-full z-10">
         {modalOpen && (<Modal
           modalProps={{
-            eventEdit: eventEdit,
             selectDate: selectDate,
             closeModal: closeModal,
             handleChange: handleChange,
             handleSubmit: handleSubmit,
+            eventEdit: eventEdit,
+            handleEventEdit: handleEventEdit,
           }}
           infoProps = {{
             users: users,

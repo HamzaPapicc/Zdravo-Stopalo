@@ -3,13 +3,14 @@ import { GrClose } from "react-icons/gr";
 
 
 export default function Modal({modalProps, timeProps, infoProps}) {
+    const savedEvents = JSON.parse(localStorage.getItem("users"));
+    // const event = savedEvents.find((event) => event.id === user.id);
     return(
         <>
         <div>
             <form className=" border border-black rounded bg-white w-1/3" onSubmit={modalProps.handleSubmit}>
                 <div className=" flex justify-between p-5">
                     <h1>{modalProps.eventEdit ? "Izmenite termin" : `Novi temrin za - ${modalProps.selectDate.format("dddd, D. MMMM YYYY.")}`}</h1>
-                    {/* <h1>Novi temrin za - {modalProps.selectDate.format("dddd, D. MMMM YYYY.")}</h1> */}
                     <GrClose  onClick={modalProps.closeModal} className="cursor-pointer"/>
                 </div>
                 <div className=" w-full flex flex-col p-5 border-t border-b border-black">
@@ -89,9 +90,19 @@ export default function Modal({modalProps, timeProps, infoProps}) {
                     </div>
                 </div>
                 <div className=" flex justify-end p-5">
+                {modalProps.eventEdit ?
+                    <>
+                        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={(user) => savedEvents.filter((_, i) => i !== user)}>
+                            <h1>Izmeni</h1>
+                        </button>
+                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-5 rounded">
+                            <h1>Obriši</h1>
+                        </button>
+                    </>
+                    : 
                     <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded">
                         <h1>Dodaj</h1>
-                    </button>
+                    </button>}
                 </div>
             </form>
         </div>
