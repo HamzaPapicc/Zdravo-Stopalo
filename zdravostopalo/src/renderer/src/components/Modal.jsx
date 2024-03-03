@@ -92,7 +92,7 @@ export default function Modal({modalProps, timeProps, infoProps}) {
                 <div className=" flex justify-end p-5">
                 {modalProps.eventEdit ?
                     <>
-                        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={(user) => savedEvents.filter((_, i) => i !== user)}>
+                        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={(user) => savedEvents.filter((event) => event.id !== user.id)}>
                             <h1>Izmeni</h1>
                         </button>
                         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-5 rounded">
