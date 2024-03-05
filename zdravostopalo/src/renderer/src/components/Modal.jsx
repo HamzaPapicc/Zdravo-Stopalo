@@ -11,7 +11,7 @@ export default function Modal({modalProps, timeProps, infoProps}) {
             <form className=" border border-black rounded bg-white w-1/3" onSubmit={modalProps.handleSubmit}>
                 <div className=" flex justify-between p-5">
                     <h1>{modalProps.eventEdit ? "Izmenite termin" : `Novi temrin za - ${modalProps.selectDate.format("dddd, D. MMMM YYYY.")}`}</h1>
-                    <GrClose  onClick={modalProps.closeModal} className="cursor-pointer"/>
+                    <GrClose  onClick={() => {modalProps.closeModal(); modalProps.setEventEdit(null)}} className="cursor-pointer"/>
                 </div>
                 <div className=" w-full flex flex-col p-5 border-t border-b border-black">
                     <label htmlFor="title">Ime</label>
