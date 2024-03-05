@@ -78,10 +78,10 @@ function App() {
     } else return [];
   });
   // Ovo sluzi za menjanje naslova u modalu
-  const [eventEdit, setEventEdit] = useState(null);
+  const [eventEdit, setEventEdit] = useState(false);
   const handleEventEdit = (user) => {
     setModalOpen(true);
-    
+    setEventEdit(true);
     // //Nalazimo zeljeni termin
     // const savedEvents = JSON.parse(localStorage.getItem("users"));
     // const event = savedEvents.find((event) => event.id === user.id);
@@ -162,8 +162,7 @@ function App() {
         updatedDate: new Date("January 1, 2024"),
       });
 
-    }
-    else{
+    }else{
       e.preventDefault();
       const { hourLen, minuteLen } = extractDigits(info.trajanje);
       info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
