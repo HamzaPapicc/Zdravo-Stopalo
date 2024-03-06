@@ -79,52 +79,53 @@ function App() {
   });
   // Ovo sluzi za menjanje naslova u modalu
   const [eventEdit, setEventEdit] = useState(false);
+  
   const handleEventEdit = (user) => {
     setModalOpen(true);
     setEventEdit(true);
-    // //Nalazimo zeljeni termin
-    // const savedEvents = JSON.parse(localStorage.getItem("users"));
-    // const event = savedEvents.find((event) => event.id === user.id);
-    // //Informacije iz izabranog termina ispisujemo u modal
-    // const oldtitleSplit = event.title.split(" br: ");
-    // const oldStart = new Date (event.start);
-    // const oldEnd = new Date (event.end);
-    // const oldEventHours = oldEnd.getHours() - oldStart.getHours();
-    // const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
-    // setEventEdit(true);
-    // setModalOpen(true);
-    // setInfo({
-    //   ime: oldtitleSplit[0],
-    //   broj: oldtitleSplit[1],
-    //   sati: oldStart.getHours(),
-    //   minuta: oldStart.getMinutes(),
-    //   trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
-    //   updatedDate: new Date("January 1, 2024"),
-    // });
-    // const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
-    // const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-    // // const newEvents = {
-    // //   id: event.id,
-    // //   title: `${info.ime} br: ${info.broj}`,
-    // //   start: new Date(newStart),
-    // //   end: new Date(newEnd),
-    // // };
-    // const updated = savedEvents.map((item) => {
-    //   if(user.id === item.id) {
-    //     return {
-    //       ...item,
-    //       id: event.id,
-    //       title: `${info.ime} br: ${info.broj}`,
-    //       start: new Date(newStart),
-    //       end: new Date(newEnd),
-    //     }
-    //   }
+    //Nalazimo zeljeni termin
+    const savedEvents = JSON.parse(localStorage.getItem("users"));
+    const event = savedEvents.find((event) => event.id === user.id);
+    //Informacije iz izabranog termina ispisujemo u modal
+    const oldtitleSplit = event.title.split(" br: ");
+    const oldStart = new Date (event.start);
+    const oldEnd = new Date (event.end);
+    const oldEventHours = oldEnd.getHours() - oldStart.getHours();
+    const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
+    setEventEdit(true);
+    setModalOpen(true);
+    setInfo({
+      ime: oldtitleSplit[0],
+      broj: oldtitleSplit[1],
+      sati: oldStart.getHours(),
+      minuta: oldStart.getMinutes(),
+      trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
+      updatedDate: new Date("January 1, 2024"),
+    });
+    const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
+    const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
+    // const newEvents = {
+    //   id: event.id,
+    //   title: `${info.ime} br: ${info.broj}`,
+    //   start: new Date(newStart),
+    //   end: new Date(newEnd),
+    // };
+    const updated = savedEvents.map((item) => {
+      if(user.id === item.id) {
+        return {
+          ...item,
+          id: event.id,
+          title: `${info.ime} br: ${info.broj}`,
+          start: new Date(newStart),
+          end: new Date(newEnd),
+        }
+      }
 
-    //   return item;
-    // })
-    // const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
-    // filteredSavedEvents.push(updated);
-    // localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
+      return item;
+    })
+    const filteredSavedEvents = savedEvents.filter((event) => event.id !== user.id);
+    filteredSavedEvents.push(updated);
+    localStorage.setItem("users", JSON.stringify(filteredSavedEvents));
   }
   
   //Informacije idr.
@@ -143,27 +144,27 @@ function App() {
     setInfo({ ...info, [name]: value });
   };
   const handleSubmit = (e) => {
-    if(eventEdit){
-      e.preventDefault();
-      const savedEvents = JSON.parse(localStorage.getItem("users"));
-      const event = savedEvents.find((user) => user.id === e.id);
-      const oldtitleSplit = event.title.split(" br: ");
-      const oldStart = new Date (event.start);
-      const oldEnd = new Date (event.end);
-      const oldEventHours = oldEnd.getHours() - oldStart.getHours();
-      const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
-      setModalOpen(true);
-      setInfo({
-        ime: oldtitleSplit[0],
-        broj: oldtitleSplit[1],
-        sati: oldStart.getHours(),
-        minuta: oldStart.getMinutes(),
-        trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
-        updatedDate: new Date("January 1, 2024"),
-      });
-
-    }else{
-      e.preventDefault();
+    e.preventDefault()
+    // if(eventEdit){
+    //   const savedEvents = JSON.parse(localStorage.getItem("users"));
+    //   const event = savedEvents.find((user) => user.id === e.id);
+    //   const oldtitleSplit = event.title.split(" br: ");
+    //   const oldStart = new Date (event.start);
+    //   const oldEnd = new Date (event.end);
+    //   const oldEventHours = oldEnd.getHours() - oldStart.getHours();
+    //   const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
+    //   console.log(event.title);
+    //   setInfo({
+    //     ime: oldtitleSplit[0],
+    //     broj: oldtitleSplit[1],
+    //     sati: oldStart.getHours(),
+    //     minuta: oldStart.getMinutes(),
+    //     trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
+    //     updatedDate: new Date("January 1, 2024"),
+    //   });
+    //   closeModal();
+    // }else{
+    // }
       const { hourLen, minuteLen } = extractDigits(info.trajanje);
       info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
       setInfo({
@@ -185,9 +186,7 @@ function App() {
       setUsers([...users, newEvents]);
       localStorage.setItem("users", JSON.stringify([...users, newEvents]));
       e.target.reset();
-      setEventEdit(null);
       closeModal();
-    }
   };
   
   //Otvaranje i zatvaranje modala

@@ -8,7 +8,7 @@ export default function Modal({modalProps, timeProps, infoProps}) {
     return(
         <>
         <div>
-            <form className=" border border-black rounded bg-white w-1/3" onSubmit={modalProps.handleSubmit}>
+            <form className=" border border-black rounded bg-white w-1/3">
                 <div className=" flex justify-between p-5">
                     <h1>{modalProps.eventEdit ? "Izmenite termin" : `Novi temrin za - ${modalProps.selectDate.format("dddd, D. MMMM YYYY.")}`}</h1>
                     <GrClose  onClick={() => {modalProps.closeModal(); modalProps.setEventEdit(null)}} className="cursor-pointer"/>
@@ -92,7 +92,7 @@ export default function Modal({modalProps, timeProps, infoProps}) {
                 <div className=" flex justify-end p-5">
                 {modalProps.eventEdit ?
                     <>
-                        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={(user) => savedEvents.filter((event) => event.id !== user.id)}>
+                        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={modalProps.handleSubmit}>
                             <h1>Izmeni</h1>
                         </button>
                         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-5 rounded">
@@ -100,7 +100,7 @@ export default function Modal({modalProps, timeProps, infoProps}) {
                         </button>
                     </>
                     : 
-                    <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded">
+                    <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-1 px-5 rounded" onClick={modalProps.handleSubmit}>
                         <h1>Dodaj</h1>
                     </button>}
                 </div>
