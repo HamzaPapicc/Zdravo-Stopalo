@@ -104,12 +104,6 @@ function App() {
     });
     const newStart = dayjs(`${selectDString} ${formatTime(info.sati, info.minuta)}`).toDate().toISOString();
     const newEnd = dayjs(`${selectDString} ${formatTime(info.updatedDate.getHours(), info.updatedDate.getMinutes())}`).toDate().toISOString();
-    // const newEvents = {
-    //   id: event.id,
-    //   title: `${info.ime} br: ${info.broj}`,
-    //   start: new Date(newStart),
-    //   end: new Date(newEnd),
-    // };
     const updated = savedEvents.map((item) => {
       if(user.id === item.id) {
         return {
@@ -145,26 +139,6 @@ function App() {
   };
   const handleSubmit = (e) => {
     e.preventDefault()
-    // if(eventEdit){
-    //   const savedEvents = JSON.parse(localStorage.getItem("users"));
-    //   const event = savedEvents.find((user) => user.id === e.id);
-    //   const oldtitleSplit = event.title.split(" br: ");
-    //   const oldStart = new Date (event.start);
-    //   const oldEnd = new Date (event.end);
-    //   const oldEventHours = oldEnd.getHours() - oldStart.getHours();
-    //   const oldEventMinutes = oldEnd.getMinutes() - oldStart.getMinutes();
-    //   console.log(event.title);
-    //   setInfo({
-    //     ime: oldtitleSplit[0],
-    //     broj: oldtitleSplit[1],
-    //     sati: oldStart.getHours(),
-    //     minuta: oldStart.getMinutes(),
-    //     trajanje: `${oldEventHours}h:${oldEventMinutes}min`,
-    //     updatedDate: new Date("January 1, 2024"),
-    //   });
-    //   closeModal();
-    // }else{
-    // }
       const { hourLen, minuteLen } = extractDigits(info.trajanje);
       info.updatedDate.setTime(placeholderDate.getTime() + getMilliseconds(hourLen, minuteLen));
       setInfo({
@@ -195,7 +169,7 @@ function App() {
   }
   function closeModal() {
     setModalOpen(false);
-    setEventEdit(null);
+    setEventEdit(false);
   }
   
   //Za menjanje datuma
